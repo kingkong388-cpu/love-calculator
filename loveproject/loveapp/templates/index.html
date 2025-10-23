@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator ❤️</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    
+    <!-- ENHANCED STYLES FOR INTEREST AND ANIMATION -->
+    <style>
+        /* Reusing variables from the external style.css */
+        :root {
+            --primary-color: #ff69b4;
+            --card-background: #ffffff;
+        }
+
+        /* 1. ANIMATED BACKGROUND HEARTS CONTAINER */
+        .heart-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through */
+            overflow: hidden;
+            z-index: -1; /* Puts it behind the content */
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.5); /* Semi-transparent pink */
+            animation: floatAndFade 15s infinite ease-out;
+            transform: translateY(100vh);
+        }
+
+        /* Define the floating animation */
+        @keyframes floatAndFade {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Apply animation delays to hearts to stagger them */
+        .heart:nth-child(2n) { animation-delay: 2s; font-size: 30px; }
+        .heart:nth-child(3n) { animation-delay: 5s; font-size: 15px; }
+        .heart:nth-child(4n) { animation-delay: 8s; color: rgba(255, 0, 100, 0.4); }
+        
+        /* 2. INPUT FOCUS EFFECT */
+        .input-section {
+            /* Inherited styles already give this a nice container */
+            transition: box-shadow 0.3s ease;
+        }
+        .input-section:focus-within {
+            /* Glow effect when any input inside is active */
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.4), var(--box-shadow);
+        }
+
+        /* 3. SUBMIT BUTTON HEARTBEAT */
+        button[type="submit"] {
+            /* Inherited styles already look great, adding the animation */
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* 4. Image Preview Styles (from previous response) */
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            background-color: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        
+        .image-preview span {
+            color: #999;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .file-pair {
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ANIMATED BACKGROUND: 10 floating hearts -->
+    <div class="heart-background">
+        <div class="heart" style="left: 10%;">💖</div>
+        <div class="heart" style="left: 25%;">❤️</div>
+        <div class="heart" style="left: 40%;">💕</div>
+        <div class="heart" style="left: 55%;">💖</div>
+        <div class="heart" style="left: 70%;">❤️</div>
+        <div class="heart" style="left: 85%;">💕</div>
+        <div class="heart" style="left: 5%;">💖</div>
+        <div class="heart" style="left: 35%;">❤️</div>
+        <div class="heart" style="left: 65%;">💕</div>
+        <div class="heart" style="left: 95%;">💖</div>
+    </div>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Main Title -->
+        <h1>💖 Love Compatibility Analyzer 💙</h1>
+
+        <!-- Error Message Placeholder -->
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        
+        <div class="form-content">
+            
+            <!-- 1. NAME INPUT SECTION -->
+            <div class="input-section name-input-section">
+                <label for="name-a">Enter Names (Option 1):</label>
+                <div class="input-pair">
+                    <input type="text" id="name-a" name="name_a" placeholder="Your Name" value="">
+                    <input type="text" id="name-b" name="name_b" placeholder="Partner Name" value="">
+                </div>
+                <p class="helper-text">Find your compatibility based on names alone.</p>
+            </div>
+
+            <div class="or-separator">OR</div>
+
+            <!-- 2. PHOTO UPLOAD SECTION -->
+            <div class="input-section photo-input-section">
+                <label for="photo-a">Upload Photos (Option 2):</label>
+                <div class="input-pair file-pair">
+                    
+                    <!-- File Input A -->
+                    <div>
+                         <input type="file" id="photo-a" name="photo_a" accept="image/*" aria-label="Upload your photo" onchange="previewImage(event, 'preview-a')">
+                         <!-- Image Preview Placeholder A -->
+                         <div class="image-preview" id="preview-a">
+                             <span>Your Photo</span>
+                         </div>
+                    </div>
+
+                    <!-- File Input B -->
+                    <div>
+                         <input type="file" id="photo-b" name="photo_b" accept="image/*" aria-label="Upload partner's photo" onchange="previewImage(event, 'preview-b')">
+                         <!-- Image Preview Placeholder B -->
+                         <div class="image-preview" id="preview-b">
+                             <span>Partner Photo</span>
+                         </div>
+                    </div>
+
+                </div>
+                <p class="helper-text">Upload clear photos for a visual analysis.</p>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit">Check Compatibility 💞</button>
+
+            <!-- Results Placeholder -->
+            <div id="results-placeholder" class="result-display" style="display: none;">
+                <!-- Your compatibility results will load here -->
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- FOOTER -->
+    <footer>Created by - <strong>Amaz Tanweer</strong></footer>
+
+    <!-- JAVASCRIPT FOR IMAGE PREVIEW -->
+    <script>
+        /**
+         * Reads the selected file and displays it in the corresponding image preview box.
+         * @param {Event} event - The change event from the file input.
+         * @param {string} previewId - The ID of the <div> element where the image should be displayed.
+         */
+        function previewImage(event, previewId) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById(previewId);
+
+            // Clear previous content
+            previewContainer.innerHTML = ''; 
+
+            if (file && file.type.startsWith('image/')) {
+                // Create a file reader instance
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Create a new image element
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Selected Photo Preview';
+                    
+                    // Append the image to the preview container
+                    previewContainer.appendChild(img);
+                };
+
+                // Read the image file as a Data URL
+                reader.readAsDataURL(file);
+
+            } else {
+                // If no file or not an image, restore the placeholder text
+                previewContainer.innerHTML = previewId === 'preview-a' ? '<span>Your Photo</span>' : '<span>Partner Photo</span>';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+/* -------------------- */
+/* 1. Global Setup & Reset */
+/* -------------------- */
+:root {
+    --primary-color: #ff69b4; /* Hot Pink - The "Love" Color */
+    --secondary-color: #4a90e2; /* Nice Blue */
+    --background-color: #fce4ec; /* Very light pink background */
+    --card-background: #ffffff; /* White card for content */
+    --text-dark: #333333;
+    --font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    --border-radius: 12px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* -------------------- */
+/* 2. Layout & Main Container */
+/* -------------------- */
+form {
+    background-color: var(--card-background);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 500px; /* Limits the width for better readability */
+    transition: transform 0.3s ease-in-out;
+}
+
+form:hover {
+    transform: translateY(-5px); /* Subtle lift on hover */
+}
+
+/* -------------------- */
+/* 3. Header & Typography */
+/* -------------------- */
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.error {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ef9a9a;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* -------------------- */
+/* 4. Input Sections & Fields */
+/* -------------------- */
+.input-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fffafa;
+}
+
+.input-section label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--primary-color);
+    width: fit-content;
+    padding-bottom: 3px;
+}
+
+input[type="text"] {
+    width: calc(50% - 10px); /* Makes two inputs fit nicely side-by-side */
+    padding: 12px;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+}
+
+input[type="text"]:last-child {
+    margin-right: 0;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+}
+
+/* Style for File Uploads */
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 5px;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+}
+
+/* -------------------- */
+/* 5. Button Styling */
+/* -------------------- */
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+}
+
+button[type="submit"]:hover {
+    background-color: #e65a9e; /* Darker pink on hover */
+    transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* -------------------- */
+/* 6. Footer */
+/* -------------------- */
+footer {
+    margin-top: 30px;
+    padding: 15px;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Responsive Adjustments for smaller screens */
+@media (max-width: 550px) {
+    input[type="text"] {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    form {
+        padding: 30px 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    /* --- Additional Styles for Professional HTML Structure --- */
+
+.form-content {
+    /* Ensures sections within the form are managed neatly */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-pair {
+    display: flex;
+    gap: 15px; /* Spacing between the two name/file inputs */
+}
+
+/* Ensure inputs stack on small screens, which is handled in the media query in the main CSS, 
+but explicitly defining the input pair behavior here is good practice. */
+@media (max-width: 550px) {
+    .input-pair {
+        flex-direction: column;
+        gap: 0;
+    }
+    input[type="text"]:last-child {
+        margin-bottom: 0; /* Remove extra margin */
+    }
+}
+
+.helper-text {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    margin-top: 10px;
+    padding-left: 5px;
+    font-style: italic;
+}
+
+.or-separator {
+    text-align: center;
+    color: var(--secondary-color);
+    margin: 15px 0;
+    font-weight: 600;
+    position: relative;
+}
+
+.or-separator::before,
+.or-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 35%; /* Adjust line length */
+    height: 1px;
+    background-color: #ddd;
+}
+
+.or-separator::before {
+    left: 0;
+}
+
+.or-separator::after {
+    right: 0;
+}
+}

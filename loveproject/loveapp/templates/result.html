@@ -1,0 +1,168 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result 💕</title>
+    <!-- Ensure the CSS link uses the Django static tag correctly -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+    <!-- Add custom styles specifically for the results page layout -->
+    <style>
+        /* Reusing the .card class from the main CSS for centering and shadowing */
+        .card {
+            width: 100%;
+            max-width: 600px; /* Slightly wider card for results */
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 20px auto; /* Centers the card */
+            text-align: center;
+        }
+
+        /* Styling for the large percentage display */
+        .percent-display {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0 10px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 5px;
+            display: inline-block; /* Only underline the text */
+        }
+
+        /* Styling for the main sentence */
+        h2 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the short tips/summary */
+        .tips {
+            font-style: italic;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Advice Block */
+        .advice {
+            background-color: #fff8e1; /* Light yellow background */
+            border-left: 5px solid orange;
+            padding: 15px;
+            margin: 30px 0;
+            text-align: left;
+            border-radius: 8px;
+        }
+
+        .advice strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #e65100; /* Dark orange for emphasis */
+        }
+
+        /* Submitted Couples List */
+        .couples-list-header {
+            color: var(--primary-color);
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .couples-list-container {
+            max-height: 200px; /* Limits height for long lists */
+            overflow-y: auto; /* Adds scrollbar if list is too long */
+            text-align: left;
+            padding: 10px 15px;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .couples-list-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .couples-list-container li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #eee;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .couples-list-container li:last-child {
+            border-bottom: none;
+        }
+
+        .couples-list-container li strong {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        /* Style for Try Again Button (using the same style as the submit button) */
+        .try-again-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: var(--secondary-color); /* Use the secondary color for this action */
+            color: var(--text-light);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .try-again-button:hover {
+            background-color: #3b74b6;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Use a simple div with class="card" to get the centered, shadowed look -->
+    <div class="card">
+        <!-- Main Result Sentence -->
+        <h2>{{ sentence }}</h2>
+
+        <!-- Prominent Love Percentage -->
+        <div class="percent-display">{{ percent }}%</div>
+        
+        <!-- Short Tips -->
+        <p class="tips">{{ tips }}</p>
+
+        <!-- Advice Block -->
+        <div class="advice">
+            💬 <strong>Relationship Advice:</strong> {{ advice }}
+        </div>
+
+        <!-- Submitted Couples List -->
+        <h3 class="couples-list-header">💞 All Submitted Couples:</h3>
+        
+        <div class="couples-list-container">
+            <ul>
+                {% for couple in couples %}
+                    <li>
+                        <span>{{ couple.name_a }} ❤️ {{ couple.name_b }}</span>
+                        <strong>{{ couple.score }}%</strong>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Try Again Button -->
+        <a href="/" class="try-again-button">🔁 Try Again</a>
+    </div>
+
+    <!-- The original footer will use the body and footer styles from style.css -->
+    <footer>Created with ❤️ by <strong>Amaz Tanweer</strong></footer>
+</body>
+</html>
