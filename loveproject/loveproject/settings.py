@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'loveproject.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
